@@ -23,7 +23,12 @@
         function makeShapeAppear() {
             var top = Math.random() * 400;
             var left = Math.random() * 400;
-            var width = Math.random() * 300;
+            var width = 100 + Math.random() * 200;
+
+            if(Math.random() > 0.5){
+                document.getElementById("shape").style.borderRadius = "50%";
+            }
+            else document.getElementById("shape").style.borderRadius = "0";
             document.getElementById("shape").style.backgroundColor = getRandomColor();
             document.getElementById("shape").style.width = width + "px";
             document.getElementById("shape").style.height = width + "px";
