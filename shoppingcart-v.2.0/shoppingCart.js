@@ -1,103 +1,112 @@
 //ShoppingCart function starts
-var shoppingCart = {};
-shoppingCart.cart = [];
-shoppingCart.Item = function(name, price, count) {
-    this.name = name;
-    this.price = price;
-    this.count = count;
-};
+var shoppingCart = (function() {
+    //Private methods and properties
+    var cart = [];
 
-
-shoppingCart.addItemToCart = function(name, price, count) {
-    for (var i in this.cart) {
-        if (this.cart[i].name === name) {
-            this.cart[i].count += count;
-            this.saveCart();
-            return;
-        }
+    function Item(name, price, count) {
+        this.name = name;
+        this.price = price;
+        this.count = count;
     }
-    var item = new this.Item(name, price, count);
-    this.cart.push(item);
-    this.saveCart;
 
-}
-shoppingCart.setCountForItem = function(name, count) {
-    for (var i in this.cart) {
-        if (this.cart[i].name === name) {
-            this.cart[i].count = count;
-            break;
-        }
+    function saveCart() {
+        localStorage.setItem("shoppingCart", JSON.stringify(cart));
     }
-}
 
-shoppingCart.removeItemFromCart = function(name) {
-    for (var i in this.cart) {
-        if (this.cart[i].name === name) {
-            this.cart[i].count--;
-            if (this.cart[i].count <= 0) {
-                this.cart.splice(i, 1);
+    function loadCart() {
+        cart = JSON.parse(localStorage.getItem("shoppingCart"));
+
+    }
+    loadCart();
+
+
+    //Public methods and properties
+    var obj = {};
+
+    obj.addItemToCart = function(name, price, count) {
+        for (var i in cart) {
+            if (cart[i].name === name) {
+                cart[i].count += count;
+                saveCart();
+                return;
             }
-            break;
         }
-    }
-    this.saveCart();
-}
+        var item = new Item(name, price, count);
+        cart.push(item);
+        saveCart();
+    };
 
 
-shoppingCart.removeItemFromCartAll = function(name) {
-    for (var i in this.cart) {
-        if (this.cart[i].name === name) {
-            this.cart.splice(i, 1);
-            break;
+    obj.setCountForItem = function(name, count) {
+        for (var i in cart) {
+            if (cart[i].name === name) {
+                cart[i].count = count;
+                break;
+            }
         }
-    }
-    this.saveCart();
-}
+        saveCart();
+    };
 
-shoppingCart.clearCart = function() {
-    this.cart = [];
-    this.saveCart();
-}
 
-shoppingCart.countCart = function() {
-    var totalCount = 0;
-    for (var i in this.cart) {
-
-        totalCount += this.cart[i].count;
-    }
-    return totalCount;
-}
-
-shoppingCart.totalCart = function() {
-    var totalCost = 0;
-    for (var i in this.cart) {
-
-        totalCost += this.cart[i].price * this.cart[i].count;
-    }
-    return totalCost.toFixed(2);
-}
-
-shoppingCart.listCart = function() {
-    var cartCopy = [];
-    for (var i in this.cart) {
-        var item = this.cart[i]; //item will contain object
-
-        var itemCopy = {};
-        for (var p in item) {
-            itemCopy[p] = item[p];
+    obj.removeItemFromCart = function(name) {
+        for (var i in cart) {
+            if (cart[i].name === name) {
+                cart[i].count--;
+                if (cart[i].count <= 0) {
+                    cart.splice(i, 1);
+                }
+                break;
+            }
         }
-        itemCopy.total = (item.price * item.count).toFixed(2);
-        cartCopy.push(itemCopy);
-    }
-    return cartCopy;
-}
+        saveCart();
+    };
 
-shoppingCart.saveCart = function() {
-    localStorage.setItem("shoppingCart", JSON.stringify(this.cart));
-}
+    obj.removeItemFromCartAll = function(name) {
+        for (var i in cart) {
+            if (cart[i].name === name) {
+                cart.splice(i, 1);
+                break;
+            }
+        }
+        saveCart();
+    };
 
-shoppingCart.loadCart = function() {
-    this.cart = JSON.parse(localStorage.getItem("shoppingCart"));
+    obj.clearCart = function() {
+        cart = [];
+        saveCart();
+    };
+    obj.countCart = function() {
+        var totalCount = 0;
+        for (var i in cart) {
 
-}
-shoppingCart.loadCart();
+            totalCount += cart[i].count;
+        }
+        return totalCount;
+    };
+
+    obj.totalCart = function() {
+        var totalCost = 0;
+        for (var i in cart) {
+
+            totalCost += cart[i].price * cart[i].count;
+        }
+        return totalCost.toFixed(2);
+    };
+
+    obj.listCart = function() {
+        var cartCopy = [];
+        for (var i in cart) {
+            var item = cart[i]; //item will contain object
+
+            var itemCopy = {};
+            for (var p in item) {
+                itemCopy[p] = item[p];
+            }
+            itemCopy.total = (item.price * item.count).toFixed(2);
+            cartCopy.push(itemCopy);
+        }
+        return cartCopy;
+    };
+
+    return obj;
+})();
