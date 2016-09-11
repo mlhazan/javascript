@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Date example</title>
+    <style type="text/css">
+        .error {
+            color: #c00;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function checkDate() {
+            if (!document.getElementById || !document.createTextNode) {
+                return;
+            }
+            var dateField = document.getElementById('date');
+            if (!dateField) {
+                return;
+            }
+            var errorContainer = dateField.parentNode.getElementsByTagName('span')[0];
+            console.log(errorContainer);
+
+            if (!errorContainer) {
+                return;
+            }
+            var checkPattern = new RegExp("\\d{2}/\\d{2}/\\d{4}");
+            var errorMessage = '';
+            errorContainer.firstChild.nodeValue = ' ';
+            var dateValue = dateField.value;
+            if (dateValue == '') {
+                errorMessage = 'Please provide a date.';
+            } else if (!checkPattern.test(dateValue)) {
+                errorMessage = 'Please provide the date in the defined format.';
+            }
+            if (errorMessage != '') { //when errorMessage got an error
+                errorContainer.firstChild.nodeValue = errorMessage;
+                dateField.focus();
+                return false;
+            } else {
+                return true;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Events search</h1>
+    <form action="eventssearch.php" method="post" onsubmit="return checkDate();">
+        <p id="sp">
+            <label>Date in the format DD/MM/YYYY:</label>
+            <br />
+            <input type="text" id="date" name="date" />
+            <input type="submit" value="Check " />
+            <br />(example 26/04/1975) <span class="error"> </span>
+        </p>
+    </form>
+</body>
+
+</html>
