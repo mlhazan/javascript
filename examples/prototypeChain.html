@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="div1">
+        <!--This is comments-->
+        <h1>This is first div</h1>
+    </div>
+    <div>
+        <h1>Second div</h1>
+    </div>
+
+    <script>
+        function prototypeChain(obj) {
+            var p = Object.getPrototypeOf(obj);
+            while (p != null) {
+                console.log(p);
+                p = Object.getPrototypeOf(p);
+            }
+        };
+        var firstDiv = document.getElementById('div1');
+        prototypeChain(firstDiv);
+        prototypeChain(document);
+
+
+        var text = firstDiv.firstChild;
+        prototypeChain(text); //this means the empty space till comment
+
+        var comment = firstDiv.firstChild.nextSibling;
+        prototypeChain(comment); //this means the empty space till h1 tag
+    </script>
+</body>
+
+</html>
