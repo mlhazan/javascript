@@ -19,7 +19,8 @@
             if (!dateField) {
                 return;
             }
-            var errorContainer = dateField.parentNode.getElementsByTagName('span')[0];
+            var Field = document.getElementById('sp');
+            var errorContainer = Field.parentNode.getElementsByTagName('span')[0];
             console.log(errorContainer);
 
             if (!errorContainer) {
@@ -48,14 +49,20 @@
 <body>
     <h1>Events search</h1>
     <form action="eventssearch.php" method="post" onsubmit="return checkDate();">
-        <p id="sp">
+        <p>
             <label>Date in the format DD/MM/YYYY:</label>
             <br />
             <input type="text" id="date" name="date" />
             <input type="submit" value="Check " />
-            <br />(example 26/04/1975) <span class="error"> </span>
+            <br />(example 26/04/1975)
+
+
+        </p>
+        <p id="sp">
+            <span class="error"> </span>
         </p>
     </form>
+
 </body>
 
 </html>

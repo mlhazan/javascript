@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html dir="ltr" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Example: Accessing the style collection</title>
+    <style type="text/css">
+
+    </style>
+    <script type="text/javascript" src="DOMhelp.js"></script>
+    <script>
+        sc = {
+            init: function() {
+                sc.head = document.getElementsByTagName('h3')[0];
+                console.log(sc.head);
+                if (!sc.head) {
+                    return;
+                }
+                sc.ad = DOMhelp.closestSibling(sc.head, 1);
+                sc.ad.style.display = 'none';
+                var t = DOMhelp.getText(sc.head);
+                console.log(t);
+                console.log(sc.head.firstChild);
+                var collapseLink = DOMhelp.createLink('#', t);
+                sc.head.replaceChild(collapseLink, sc.head.firstChild);
+                DOMhelp.addEvent(collapseLink, 'click', sc.peekaboo, false);
+
+            },
+            peekaboo: function(e) {
+                sc.ad.style.display = sc.ad.style.display == 'none' ? '' : 'none';
+
+            }
+        }
+        DOMhelp.addEvent(window, 'load', sc.init, false);
+    </script>
+</head>
+
+<body>
+    <h3>Contact Details</h3>
+    <address>
+Awesome Web Production Company<br />
+Going Nowhere Lane 0<br />
+Catch 22<br />
+N4 2XX<br />
+England<br />
+</address>
+</body>
+
+</html>
+<br />
+</address>
+</body>
+
+</html>
